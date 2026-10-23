@@ -4,34 +4,34 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#070C34">
+<meta name="theme-color" content="#0B1238">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="CES 2027">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>WE-Meet CES 2027</title>
-<style>
+<style id="gate-css">
 @font-face{font-family:'Pretendard';font-weight:45 920;font-display:swap;
   src:url('fonts/PretendardVariable.woff2') format('woff2-variations');}
-html,body{margin:0;height:100%;background:#070C34}
+html,body{margin:0;height:100%;background:#0B1238}
 body{font-family:'Pretendard',system-ui,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;-webkit-font-smoothing:antialiased}
-#gate{min-height:100%;display:flex;flex-direction:column;justify-content:center;padding:32px 24px calc(32px + env(safe-area-inset-bottom));box-sizing:border-box;color:#fff;
-  background:radial-gradient(120% 70% at 85% 0%,#1f3fd1 0%,rgba(31,63,209,0) 60%),radial-gradient(90% 60% at 0% 100%,#3a1a9e 0%,rgba(58,26,158,0) 60%),#070C34}
-.wrap{max-width:400px;width:100%;margin:0 auto}
-.px{display:flex;gap:3px;margin-bottom:22px}.px i{width:6px;height:22px;border-radius:2px}
-.px i:nth-child(1){background:#ff4d5e}.px i:nth-child(2){background:#3ee08f}.px i:nth-child(3){background:#4c8dff}
-.eyebrow{font-size:14px;letter-spacing:.08em;color:#9fb0ff;font-weight:600}
-h1{font-size:34px;line-height:1.2;margin:8px 0 6px;font-weight:800;letter-spacing:-.02em}
-.sub{color:#c9d1ff;font-size:16px;line-height:1.5;margin:0 0 32px}
-label{display:block;font-size:15px;color:#c9d1ff;margin-bottom:8px}
-input{width:100%;box-sizing:border-box;font:inherit;font-size:20px;padding:16px;border-radius:14px;border:1.5px solid #3b4592;background:rgba(255,255,255,.06);color:#fff;outline:none}
-input:focus{border-color:#7381FF;background:rgba(255,255,255,.1)}
-button{margin-top:14px;width:100%;font:inherit;font-size:18px;font-weight:700;padding:16px;border:0;border-radius:14px;background:#fff;color:#070C34;cursor:pointer}
-button:active{transform:translateY(1px)}
-.err{min-height:24px;margin-top:12px;color:#ff9aa5;font-size:15px}
-.foot{margin-top:28px;font-size:13px;color:#7d87c4;line-height:1.6}
-.loading{font-size:16px;color:#c9d1ff}
+#gate{min-height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:calc(56px + env(safe-area-inset-top)) 24px calc(28px + env(safe-area-inset-bottom));box-sizing:border-box;color:#fff;background:#0B1238}
+.wrap{max-width:420px;width:100%;margin:0 auto}
+.px{display:flex;gap:3px;margin-bottom:28px}.px i{width:4px;height:20px;border-radius:2px}
+.px i:nth-child(1){background:#FF4D5E}.px i:nth-child(2){background:#20C77A}.px i:nth-child(3){background:#4C8DFF}
+.eyebrow{font-size:14px;color:#A9B3E8;font-weight:600}
+h1{font-size:32px;line-height:1.25;margin:8px 0 0;font-weight:800;letter-spacing:-.03em}
+.sub{color:#A9B3E8;font-size:16px;line-height:1.5;margin:8px 0 0}
+.formw{margin-top:40px}
+label{display:block;font-size:14px;color:#C9D0F2;margin-bottom:8px;font-weight:600}
+input{width:100%;box-sizing:border-box;font:inherit;font-size:18px;padding:16px;border-radius:14px;border:1px solid #2A3470;background:#121A4A;color:#fff;outline:none;letter-spacing:.04em}
+input:focus{border-color:#4C7BFF;box-shadow:0 0 0 3px rgba(76,123,255,.25)}
+button{margin-top:12px;width:100%;font:inherit;font-size:17px;font-weight:700;height:54px;border:0;border-radius:14px;background:#2253F5;color:#fff;cursor:pointer}
+button:active{background:#1A43CF}
+.err{min-height:22px;margin-top:12px;color:#FF9AA5;font-size:14.5px}
+.foot{font-size:13px;color:#7D87C4;line-height:1.6;max-width:420px;margin:0 auto;width:100%}
+.loading{font-size:15px;color:#A9B3E8;margin-top:40px}
 </style>
 </head>
 <body>
@@ -40,18 +40,18 @@ button:active{transform:translateY(1px)}
     <div class="px" aria-hidden="true"><i></i><i></i><i></i></div>
     <div class="eyebrow">차세대디스플레이 혁신융합대학사업단</div>
     <h1>WE-Meet in<br>CES 2027</h1>
-    <p class="sub">참가자 통합 안내</p>
-    <div id="form" hidden>
+    <p class="sub">참가자 안내 · 2027.1.5 – 1.12</p>
+    <div id="form" class="formw" hidden>
       <form id="f" autocomplete="off">
         <label for="pw">안내받은 비밀번호를 입력하세요</label>
         <input id="pw" type="password" inputmode="text" autocomplete="current-password" required>
         <button type="submit">열기</button>
         <div class="err" id="err" role="alert"></div>
       </form>
-      <p class="foot">한 번 열면 이 휴대폰에서는 다음부터 자동으로 열리고,<br>인터넷이 없어도 볼 수 있어요.</p>
     </div>
-    <p class="loading" id="loading">여는 중…</p>
+    <p class="loading" id="loading">여는 중</p>
   </div>
+  <p class="foot">한 번 열면 이 휴대폰에서는 다음부터 바로 열리고, 인터넷이 없어도 볼 수 있어요.</p>
 </div>
 <script>
 (() => {
@@ -71,6 +71,8 @@ button:active{transform:translateY(1px)}
     return JSON.parse(new TextDecoder().decode(pt))
   }
   function run(p) {
+    document.getElementById('gate-css')?.remove() // 잠금 화면 전용 스타일이 앱 화면에 섞이지 않게
+    document.querySelector('meta[name=theme-color]')?.setAttribute('content', '#ffffff')
     const st = document.createElement('style'); st.textContent = p.css; document.head.appendChild(st)
     document.body.innerHTML = '<div id="app"></div>'
     const sc = document.createElement('script'); sc.textContent = p.js; document.body.appendChild(sc)

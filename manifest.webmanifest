@@ -1,0 +1,14 @@
+{
+  "name": "WE-Meet in CES 2027 참가자 안내",
+  "short_name": "CES 2027",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#070C34",
+  "theme_color": "#070C34",
+  "lang": "ko",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

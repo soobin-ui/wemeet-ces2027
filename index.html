@@ -158,11 +158,9 @@ button:active{background:#1A43CF}
         const key = await crypto.subtle.importKey('raw', fromB64(saved), 'AES-GCM', false, ['decrypt'])
         const p = await decryptWith(key, enc)
         // 첫 화면은 매번 보여주고, 확인이 끝난 휴대폰은 '시작하기' 버튼 하나만
-        // 첫 화면은 매번 잠깐 보여주고 자동으로 넘어간다(누르면 바로)
+        // 첫 화면은 매번 보여주고, '시작하기'를 눌러야 넘어간다
         $('loading').hidden = true; $('go').hidden = false
-        let done = false; const go = () => { if (!done) { done = true; run(p) } }
-        $('goBtn').addEventListener('click', go, { once: true })
-        setTimeout(go, 1200)
+        $('goBtn').addEventListener('click', () => run(p), { once: true })
         return
       } catch (e) { store.del(KEY) }
     }

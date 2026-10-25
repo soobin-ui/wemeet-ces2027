@@ -1,7 +1,7 @@
 // 오프라인 지원: 한 번 열어 두면 인터넷 없이도 열린다.
 // 안내 내용(index.html·app.enc)은 '인터넷 먼저, 안 되면 저장본' — 업데이트가 바로 반영되게.
 // 글꼴·아이콘은 '저장본 먼저'.
-const CACHE = 'wemeet-2026-10-25 15:44'
+const CACHE = 'wemeet-2026-10-25 15:55'
 const SHELL = ['./', 'index.html', 'app.enc', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png']
 const FONT = 'fonts/PretendardVariable.woff2'
 

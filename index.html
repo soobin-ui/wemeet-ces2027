@@ -79,6 +79,8 @@ button:active{background:#1A43CF}
   const store = { get(k){try{return localStorage.getItem(k)}catch(e){return null}}, set(k,v){try{localStorage.setItem(k,v)}catch(e){}}, del(k){try{localStorage.removeItem(k)}catch(e){}} }
 
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {})
+  // 안드로이드 크롬의 '홈 화면에 추가' 신호는 일찍 오므로 여기서 받아 두고 앱이 꺼내 쓴다
+  window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); window.__bip = e })
 
   let encP = null
   const getEnc = () => (encP ||= fetch('app.enc', { cache: 'no-cache' }).then((r) => { if (!r.ok) throw new Error('load'); return r.json() }))
@@ -108,8 +110,11 @@ button:active{background:#1A43CF}
         const key = await crypto.subtle.importKey('raw', fromB64(saved), 'AES-GCM', false, ['decrypt'])
         const p = await decryptWith(key, enc)
         // 첫 화면은 매번 보여주고, 확인이 끝난 휴대폰은 '시작하기' 버튼 하나만
+        // 첫 화면은 매번 잠깐 보여주고 자동으로 넘어간다(누르면 바로)
         $('loading').hidden = true; $('go').hidden = false
-        $('goBtn').addEventListener('click', () => run(p), { once: true })
+        let done = false; const go = () => { if (!done) { done = true; run(p) } }
+        $('goBtn').addEventListener('click', go, { once: true })
+        setTimeout(go, 1200)
         return
       } catch (e) { store.del(KEY) }
     }

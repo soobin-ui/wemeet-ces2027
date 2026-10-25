@@ -1,7 +1,7 @@
 // 오프라인 지원: 한 번 열어 두면 인터넷 없이도 열린다.
 // 안내 내용(index.html·app.enc)은 '인터넷 먼저, 안 되면 저장본' — 업데이트가 바로 반영되게.
 // 글꼴·아이콘은 '저장본 먼저'.
-const CACHE = 'wemeet-2026-10-25 15:02'
+const CACHE = 'wemeet-2026-10-25 15:23'
 const SHELL = ['./', 'index.html', 'app.enc', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png']
 const FONT = 'fonts/PretendardVariable.woff2'
 
@@ -34,7 +34,7 @@ self.addEventListener('fetch', (e) => {
   if (req.method !== 'GET') return
   const url = new URL(req.url)
   // 서버(공지·귀가보고) 요청은 건드리지 않는다
-  if (url.hostname.endsWith('supabase.co')) return
+  if (url.hostname.endsWith('supabase.co') || url.hostname === 'api.open-meteo.com') return
 
   if (url.origin === location.origin && (req.mode === 'navigate' || /\/(index\.html|app\.enc)?$/.test(url.pathname) || url.pathname.endsWith('app.enc'))) {
     e.respondWith((async () => {
@@ -60,5 +60,24 @@ self.addEventListener('fetch', (e) => {
       if (res.ok || res.type === 'opaque') c.put(req, res.clone())
       return res
     } catch { return Response.error() }
+  })())
+})
+
+// 잠금화면 알림
+self.addEventListener('push', (e) => {
+  let d = {}
+  try { d = e.data ? e.data.json() : {} } catch { d = { title: 'WE-Meet CES 2027', body: e.data && e.data.text() } }
+  e.waitUntil(self.registration.showNotification(d.title || 'WE-Meet CES 2027', {
+    body: d.body || '', tag: d.tag || 'wemeet', renotify: true, icon: 'icon-192.png', badge: 'icon-192.png',
+    data: { url: d.url || './' }, requireInteraction: !!d.urgent,
+  }))
+})
+self.addEventListener('notificationclick', (e) => {
+  e.notification.close()
+  const target = new URL(e.notification.data && e.notification.data.url || './', self.registration.scope).href
+  e.waitUntil((async () => {
+    const all = await self.clients.matchAll({ type: 'window', includeUncontrolled: true })
+    for (const c of all) { if ('focus' in c) { c.navigate ? await c.navigate(target).catch(() => {}) : null; return c.focus() } }
+    return self.clients.openWindow(target)
   })())
 })

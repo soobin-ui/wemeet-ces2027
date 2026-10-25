@@ -40,6 +40,11 @@ button:active{background:#1A43CF}
 .err{min-height:20px;margin-top:10px;color:#FF9AA5;font-size:14.5px}
 .foot{font-size:12.5px;color:#7782BE;line-height:1.6;margin:6px 0 0}
 .loading{font-size:15px;color:#A9B3E8;margin-top:28px}
+/* 화면 전환: 버튼 칸은 살짝 떠오르며 나타나고, 들어갈 때는 표지가 조용히 물러난다 */
+.formw:not([hidden]){animation:rise .32s cubic-bezier(.2,.8,.2,1)}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+#gate.leave .head,#gate.leave .panel,#gate.leave .spec,#gate.leave .body{transition:opacity .2s ease,transform .24s cubic-bezier(.4,0,1,1);opacity:0;transform:translateY(-8px)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -133,12 +138,26 @@ button:active{background:#1A43CF}
     const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: fromB64(enc.iv) }, key, fromB64(enc.ct))
     return JSON.parse(new TextDecoder().decode(pt))
   }
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches
+  // 표지를 먼저 물리고(0.2초) 앱을 연 다음, 남색 막을 걷어 내듯 앱이 드러나게
   function run(p) {
+    if (calm) return open(p)
+    $('gate').classList.add('leave')
+    setTimeout(() => open(p), 200)
+  }
+  function open(p) {
     document.getElementById('gate-css')?.remove() // 잠금 화면 전용 스타일이 앱 화면에 섞이지 않게
     document.querySelector('meta[name=theme-color]')?.setAttribute('content', '#ffffff')
     const st = document.createElement('style'); st.textContent = p.css; document.head.appendChild(st)
     document.body.innerHTML = '<div id="app"></div>'
     const sc = document.createElement('script'); sc.textContent = p.js; document.body.appendChild(sc)
+    if (calm) return
+    const veil = document.createElement('div')
+    veil.style.cssText = 'position:fixed;inset:0;z-index:100;background:#0B1238;pointer-events:none;transition:opacity .38s cubic-bezier(.2,.8,.2,1)'
+    document.body.appendChild(veil)
+    document.querySelector('#app main')?.classList.add('in-tab') // 내용만 떠오르게(#app을 움직이면 아래 탭 막대까지 따라 움직임)
+    requestAnimationFrame(() => requestAnimationFrame(() => { veil.style.opacity = '0' }))
+    setTimeout(() => veil.remove(), 450)
   }
   // 처음 여는 휴대폰: 표지만 보여 주고, '시작하기'를 눌러야 비밀번호 칸이 나온다(키보드도 그때)
   function showForm() {
@@ -157,7 +176,6 @@ button:active{background:#1A43CF}
       try {
         const key = await crypto.subtle.importKey('raw', fromB64(saved), 'AES-GCM', false, ['decrypt'])
         const p = await decryptWith(key, enc)
-        // 첫 화면은 매번 보여주고, 확인이 끝난 휴대폰은 '시작하기' 버튼 하나만
         // 첫 화면은 매번 보여주고, '시작하기'를 눌러야 넘어간다
         $('loading').hidden = true; $('go').hidden = false
         $('goBtn').addEventListener('click', () => run(p), { once: true })
